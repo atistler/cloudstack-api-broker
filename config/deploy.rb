@@ -21,8 +21,8 @@ set :ssh_options, {
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 set :keep_releases, 5
 
-def thin_exec cmd
-  run "cd #{current_path}; thin #{cmd.to_s} -C config/thin/#{application}.yml"
+def thin_exec(cmd)
+  run "cd #{current_path}; thin #{cmd.to_s} -C config/thin/#{fetch(:environment)}.yml"
 end
 
 
