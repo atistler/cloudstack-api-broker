@@ -21,28 +21,28 @@ set :ssh_options, {
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 set :keep_releases, 5
 
+def thin_exec cmd
+  run "cd #{current_path}; thin #{cmd.to_s} -C config/thin/#{application}.yml"
+end
+
+after 'deploy:update_code', 'deploy:restart'
+
 namespace :deploy do
-
+  desc 'Start thin'
   task :start do
-    "bundle exec thin start -C config/thin-config.yml"
+    thin_exec :start
   end
 
+  desc 'Stop thin'
   task :stop do
-    "bundle exec thin stop -C config/thin-config.yml"
+    thin_exec :stop
   end
 
+  desc 'Restart thin'
   task :restart do
-    "bundle exec thin restart -C config/thin-config.yml"
+    thin_exec :restart
   end
 
-  desc 'Restart application'
-  task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
-      # Your restart mechanism here, for example:
-      # execute :touch, release_path.join('tmp/restart.txt')
-    end
-  end
 
   after :finishing, 'deploy:cleanup'
-
 end
