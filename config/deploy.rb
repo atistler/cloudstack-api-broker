@@ -25,7 +25,6 @@ def thin_exec cmd
   run "cd #{current_path}; thin #{cmd.to_s} -C config/thin/#{application}.yml"
 end
 
-after 'deploy:update_code', 'deploy:restart'
 
 namespace :deploy do
   desc 'Start thin'
@@ -44,5 +43,8 @@ namespace :deploy do
   end
 
 
+  after :finishing, 'deploy:restart'
+
   after :finishing, 'deploy:cleanup'
+
 end
