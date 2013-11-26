@@ -42,7 +42,7 @@ namespace :deploy do
   desc 'Restart thin'
   task :restart do
     on roles(:app) do
-      puts "Restarting thin"
+      logger.info "Restarting thin"
       "cd #{current_path}; thin restart -C config/thin/#{fetch(:environment)}.yml"
     end
   end
