@@ -43,7 +43,7 @@ namespace :deploy do
   task :restart do
     on roles(:app) do
       puts "Restarting thin"
-      "cd #{current_path}; thin #{cmd.to_s} -C config/thin/#{fetch(:environment)}.yml"
+      "cd #{current_path}; thin restart -C config/thin/#{fetch(:environment)}.yml"
     end
   end
 
