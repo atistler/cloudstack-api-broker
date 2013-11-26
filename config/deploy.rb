@@ -22,7 +22,9 @@ set :ssh_options, {
 set :keep_releases, 5
 
 def thin_exec(cmd)
-  sudo "cd #{current_path}; thin #{cmd.to_s} -C config/thin/#{fetch(:environment)}.yml"
+  on roles(:app) do
+    "cd #{current_path}; thin #{cmd.to_s} -C config/thin/#{fetch(:environment)}.yml"
+  end
 end
 
 
